@@ -9,7 +9,7 @@ export default function Contact() {
         <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
         <br />
         <a href={SITE.github} rel="me noopener" target="_blank">
-          github.com/HyeonJ
+          {SITE.github.replace('https://', '')}
         </a>
       </p>
     </Chapter>

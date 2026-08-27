@@ -14,6 +14,7 @@ export const metadata: Metadata = {
   description: 'Java · Spring 백엔드에서 React 프론트까지 7년. 금융 보안 키 관리, 커머스 결제 정합, 폐쇄망 헬스케어 시스템.',
 };
 
+// lib/theme.ts의 resolveInitialTheme와 같은 규칙을 페인트 전에 실행하기 위한 인라인 복제본. 한쪽을 바꾸면 다른 쪽도 같이 바꿀 것 (THEME_KEY = 'theme').
 const THEME_INIT = `(function(){try{var t=localStorage.getItem('theme');if(!t){t=matchMedia('(prefers-color-scheme: dark)').matches?'night':'day'}document.documentElement.dataset.theme=t}catch(e){}})();`;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

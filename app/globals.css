@@ -2,11 +2,10 @@
 
 :root {
   --paper: #bfe0f5;
-  --paper-2: #a9d3ee;
   --ink: #16283a;
   --ink-2: #3a5068;
-  /* --paper(#bfe0f5) 위 대비 4.73:1 (WCAG AA 4.5:1). --paper를 바꾸면 다시 계산할 것. axe는 지질감 SVG 때문에 이 대비를 판정하지 못한다. */
-  --ink-3: #46607a;
+  /* 지질감(multiply 0.35) 아래 실효 종이색 rgb(175,209,232) 기준 4.69:1 (WCAG AA 4.5:1). 순수 --paper 기준이 아님. --paper나 지질감 불투명도를 바꾸면 다시 측정할 것. axe는 SVG 오버레이 때문에 이 대비를 판정하지 못한다. */
+  --ink-3: #3e576f;
   --rule: rgba(22, 40, 58, 0.35);
   --mark: #c8502e;
   --font-batang: 'Gowun Batang', 'Batang', serif;
@@ -16,7 +15,6 @@
 
 [data-theme="night"] {
   --paper: #0f1b2b;
-  --paper-2: #142337;
   --ink: #dfeaf5;
   --ink-2: #b3c6d8;
   --ink-3: #7f97ad;
@@ -72,11 +70,14 @@ html[data-turn="prev"]::view-transition-new(root) { animation-name: turn-in-prev
 /* 2차 방어선: page-turn.tsx의 matchMedia 가드와 별개로 CSS만으로도 페이드가 이기도록 특이성을 맞춘다 */
 @media (prefers-reduced-motion: reduce) {
   html[data-turn]::view-transition-old(root),
-  html[data-turn]::view-transition-new(root),
-  ::view-transition-old(root),
-  ::view-transition-new(root) {
-    animation-name: fade-swap; animation-duration: 200ms; animation-delay: 0ms; transform: none;
+  ::view-transition-old(root) {
+    animation-name: fade-out; animation-duration: 200ms; animation-delay: 0ms; transform: none;
   }
-  @keyframes fade-swap { from { opacity: 0; } to { opacity: 1; } }
+  html[data-turn]::view-transition-new(root),
+  ::view-transition-new(root) {
+    animation-name: fade-in; animation-duration: 200ms; animation-delay: 0ms; transform: none;
+  }
+  @keyframes fade-out { from { opacity: 1; } to { opacity: 0; } }
+  @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
   .ink-1, .ink-2, .ink-3, .ink-4 { animation: none; }
 }

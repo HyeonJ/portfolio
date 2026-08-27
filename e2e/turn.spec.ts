@@ -33,6 +33,7 @@ test('edge buttons exist on desktop and navigate', async ({ page }) => {
   await ready(page);
   await page.getByTestId('edge-next').click();
   await expect(page).toHaveURL('/about');
+  await expect(page.locator('html[data-turn]')).toHaveCount(0);
   await page.getByTestId('edge-prev').click();
   await expect(page).toHaveURL('/contents');
 });

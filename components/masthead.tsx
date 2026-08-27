@@ -21,7 +21,7 @@ export function Masthead({ size }: { size: Size }) {
       <div className="ink-1 font-mono text-[11px] tracking-[0.3em]" style={{ color: 'var(--ink-3)' }}>
         PORTFOLIO · {SITE.year}
       </div>
-      <h1 className={`ink-1 whitespace-nowrap font-bold leading-[1.05] ${H1[size]}`}>정 현 인</h1>
+      <h1 className={`ink-1 whitespace-nowrap font-bold leading-[1.05] ${H1[size]}`}>{SITE.name.split('').join(' ')}</h1>
       <div className={`ink-1 font-latin font-medium ${LATIN[size]}`} style={{ color: 'var(--ink-2)' }}>
         {SITE.nameLatin}
       </div>

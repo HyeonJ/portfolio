@@ -23,7 +23,7 @@ export default function Contents() {
           <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
           <span aria-hidden="true">·</span>
           <a href={SITE.github} rel="me noopener" target="_blank">
-            github.com/HyeonJ
+            {SITE.github.replace('https://', '')}
           </a>
         </div>
         <div className="ink-4 font-mono mt-6 text-[12px] tracking-[0.2em]" style={{ color: 'var(--ink-3)' }}>

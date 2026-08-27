@@ -37,6 +37,7 @@ test('reduced motion still navigates (fallback path)', async ({ browser }) => {
   const page = await context.newPage();
   await page.goto('/');
   await page.keyboard.press('ArrowRight');
+  await expect(page.locator('html[data-turn]')).toHaveCount(0);
   await expect(page).toHaveURL('/contents');
   await context.close();
 });

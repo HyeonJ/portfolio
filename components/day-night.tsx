@@ -24,6 +24,7 @@ export function DayNight() {
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
       const target = e.target as HTMLElement | null;
       if (target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA')) return;
       if (e.key.toLowerCase() === 'n') apply(toggleTheme(readTheme()));
@@ -36,7 +37,7 @@ export function DayNight() {
   return (
     <button
       type="button"
-      aria-label={night ? '낮으로 전환' : '밤으로 전환'}
+      aria-label="낮/밤 전환"
       aria-pressed={night}
       data-testid="day-night"
       onClick={() => apply(toggleTheme(theme))}

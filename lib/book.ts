@@ -17,7 +17,7 @@ export const SITE = {
   year: 2026,
 } as const;
 
-export const CHAPTERS: Chapter[] = [
+export const CHAPTERS: readonly Chapter[] = [
   { no: '01', label: '소개', href: '/about' },
   {
     no: '02',
@@ -34,20 +34,16 @@ export const CHAPTERS: Chapter[] = [
   { no: '05', label: '연락', href: '/contact' },
 ];
 
-export function flatToc(): Chapter[] {
+export function flatToc(): readonly Chapter[] {
   return CHAPTERS.flatMap((c) => [c, ...(c.children ?? [])]);
 }
 
-export const PAGE_ORDER: string[] = [
+export const PAGE_ORDER: readonly string[] = [
   '/',
   '/contents',
-  '/about',
-  '/work/hsm-key-integrity',
-  '/work/gift-payment-reconciliation',
-  '/work/closed-network-qr',
-  '/projects',
-  '/resume',
-  '/contact',
+  ...flatToc()
+    .map((c) => c.href)
+    .filter((href) => href !== '/contents'),
 ];
 
 export function nextPage(path: string): string | null {

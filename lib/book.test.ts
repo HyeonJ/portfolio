@@ -29,4 +29,10 @@ describe('book', () => {
     const labels = flatToc().map((c) => c.no);
     expect(labels).toEqual(['01', '02', '02.1', '02.2', '02.3', '03', '04', '05']);
   });
+
+  it('PAGE_ORDER stays in sync with the chapters (cover, contents, then every chapter href once)', () => {
+    const hrefs = flatToc().map((c) => c.href);
+    expect(PAGE_ORDER).toEqual(['/', '/contents', ...hrefs.filter((h) => h !== '/contents')]);
+    expect(new Set(PAGE_ORDER).size).toBe(PAGE_ORDER.length);
+  });
 });

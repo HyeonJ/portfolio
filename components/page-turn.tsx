@@ -5,8 +5,6 @@ import { usePathname, useRouter } from 'next/navigation';
 import { nextPage, prevPage } from '@/lib/book';
 import { isTypingTarget, type TurnDirection } from '@/lib/nav';
 
-export type { TurnDirection };
-
 type TurnFn = (href: string, dir: TurnDirection) => void;
 
 const TurnContext = createContext<TurnFn>(() => {});
@@ -21,10 +19,12 @@ export function PageTurnProvider({ children }: { children: ReactNode }) {
   const resolveNav = useRef<(() => void) | null>(null);
   const turning = useRef(false);
   const lastPush = useRef<string | null>(null);
+  const lastPushTimer = useRef(0);
 
   useEffect(() => {
     resolveNav.current?.();
     resolveNav.current = null;
+    window.clearTimeout(lastPushTimer.current);
     lastPush.current = null;
   }, [pathname]);
 
@@ -40,9 +40,14 @@ export function PageTurnProvider({ children }: { children: ReactNode }) {
     (href, dir) => {
       if (href === pathname || turning.current || href === lastPush.current) return;
       const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const supportsVT = typeof document.startViewTransition === 'function';
+      const startVT = document.startViewTransition?.bind(document);
+      // 같은 목적지 연타 방지 표시. pathname이 끝내 안 바뀌는 push도 있으므로 스스로 만료시킨다.
       lastPush.current = href;
-      if (!supportsVT || reduced) {
+      window.clearTimeout(lastPushTimer.current);
+      lastPushTimer.current = window.setTimeout(() => {
+        if (lastPush.current === href) lastPush.current = null;
+      }, TURN_TIMEOUT_MS);
+      if (!startVT || reduced) {
         router.push(href);
         return;
       }
@@ -67,7 +72,7 @@ export function PageTurnProvider({ children }: { children: ReactNode }) {
           resolveNav.current = finish;
           router.push(href);
         });
-      document.startViewTransition!(navigate).finished.then(cleanup, cleanup);
+      startVT(navigate).finished.then(cleanup, cleanup);
     },
     [router, pathname],
   );

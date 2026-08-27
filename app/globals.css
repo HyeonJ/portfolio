@@ -1,26 +1,77 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --paper: #bfe0f5;
+  --paper-2: #a9d3ee;
+  --ink: #16283a;
+  --ink-2: #3a5068;
+  --ink-3: #5f7891;
+  --rule: rgba(22, 40, 58, 0.35);
+  --mark: #c8502e;
+  --font-batang: 'Gowun Batang', 'Batang', serif;
+  --font-latin: 'Cormorant Garamond', Georgia, serif;
+  --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+[data-theme="night"] {
+  --paper: #0f1b2b;
+  --paper-2: #142337;
+  --ink: #dfeaf5;
+  --ink-2: #b3c6d8;
+  --ink-3: #7f97ad;
+  --rule: rgba(223, 234, 245, 0.35);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+html, body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-batang);
+  transition: background-color 0.6s ease, color 0.6s ease;
+}
+
+a { color: inherit; text-decoration: none; }
+a:hover { color: var(--mark); }
+
+.font-latin { font-family: var(--font-latin); }
+.font-mono { font-family: var(--font-mono); }
+
+/* 차례 — 점선 리더 */
+.toc-row { display: flex; align-items: baseline; gap: 10px; letter-spacing: 0.06em; }
+.toc-row .lead { flex-grow: 1; border-bottom: 2px dotted var(--rule); transform: translateY(-5px); }
+.toc-row.sub .lead { border-bottom-width: 1px; }
+.toc-row:hover .lead { border-color: var(--mark); }
+.toc-row:hover .num { color: var(--mark); }
+
+/* 등장 */
+@keyframes ink { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.ink-1 { animation: ink 0.9s 0.10s both; }
+.ink-2 { animation: ink 0.9s 0.35s both; }
+.ink-3 { animation: ink 0.9s 0.60s both; }
+.ink-4 { animation: ink 0.9s 0.85s both; }
+
+/* 책장 넘김 — View Transitions */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 300ms;
+  animation-timing-function: ease-in-out;
+  backface-visibility: hidden;
+  mix-blend-mode: normal;
+}
+html[data-turn="next"]::view-transition-old(root) { animation-name: turn-out-next; transform-origin: left center; }
+html[data-turn="next"]::view-transition-new(root) { animation-name: turn-in-next;  transform-origin: left center; animation-delay: 300ms; }
+html[data-turn="prev"]::view-transition-old(root) { animation-name: turn-out-prev; transform-origin: right center; }
+html[data-turn="prev"]::view-transition-new(root) { animation-name: turn-in-prev;  transform-origin: right center; animation-delay: 300ms; }
+
+@keyframes turn-out-next { to   { transform: perspective(2400px) rotateY(-90deg); opacity: 0.7; } }
+@keyframes turn-in-next  { from { transform: perspective(2400px) rotateY(90deg);  opacity: 0.7; } }
+@keyframes turn-out-prev { to   { transform: perspective(2400px) rotateY(90deg);  opacity: 0.7; } }
+@keyframes turn-in-prev  { from { transform: perspective(2400px) rotateY(-90deg); opacity: 0.7; } }
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root), ::view-transition-new(root) {
+    animation-name: fade-swap; animation-duration: 200ms; animation-delay: 0ms; transform: none;
   }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  @keyframes fade-swap { from { opacity: 0; } to { opacity: 1; } }
+  .ink-1, .ink-2, .ink-3, .ink-4 { animation: none; }
 }

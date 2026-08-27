@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Gowun_Batang, Cormorant_Garamond, IBM_Plex_Mono } from 'next/font/google';
+import { Analytics } from '@vercel/analytics/next';
 import './globals.css';
 import { PageTurnProvider } from '@/components/page-turn';
 
@@ -23,6 +24,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <PageTurnProvider>{children}</PageTurnProvider>
+        <Analytics />
       </body>
     </html>
   );

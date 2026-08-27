@@ -17,18 +17,15 @@ export const SITE = {
   year: 2026,
 } as const;
 
+export const WORK_CHAPTERS: readonly Chapter[] = [
+  { no: '02.1', label: 'HSM 키 관리 시스템 — 백업·복원 무결성 설계', href: '/work/hsm-key-integrity' },
+  { no: '02.2', label: '선물하기 정산 — 환불·이력이 얽힌 금액 불일치 추적', href: '/work/gift-payment-reconciliation' },
+  { no: '02.3', label: '폐쇄망 QR 가입 시스템 — 설계부터 인수인계까지 단독', href: '/work/closed-network-qr' },
+];
+
 export const CHAPTERS: readonly Chapter[] = [
   { no: '01', label: '소개', href: '/about' },
-  {
-    no: '02',
-    label: '작업',
-    href: '/contents',
-    children: [
-      { no: '02.1', label: 'HSM 키 관리 시스템 — 백업·복원 무결성 설계', href: '/work/hsm-key-integrity' },
-      { no: '02.2', label: '선물하기 정산 — 환불·이력이 얽힌 금액 불일치 추적', href: '/work/gift-payment-reconciliation' },
-      { no: '02.3', label: '폐쇄망 QR 가입 시스템 — 설계부터 인수인계까지 단독', href: '/work/closed-network-qr' },
-    ],
-  },
+  { no: '02', label: '작업', href: '/contents', children: [...WORK_CHAPTERS] },
   { no: '03', label: '프로젝트', href: '/projects' },
   { no: '04', label: '이력서', href: '/resume' },
   { no: '05', label: '연락', href: '/contact' },

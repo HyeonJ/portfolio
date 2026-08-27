@@ -16,7 +16,7 @@ export function Chapter({ path, children }: { path: string; children?: ReactNode
         </div>
         <h1 className="ink-1 mt-3 text-[34px] font-bold leading-[1.3]">{ch?.label ?? path}</h1>
         <div className="ink-2 mt-8 grow text-[16px] leading-[1.9]" style={{ color: 'var(--ink-2)' }}>
-          {children ?? <p>이 장은 Plan 02에서 채웁니다.</p>}
+          {children ?? <p>준비 중입니다.</p>}
         </div>
         <nav aria-label="장 이동" className="ink-3 mt-16 flex items-center justify-between text-[14px] tracking-[0.06em]">
           {prev ? <TurnLink href={prev}>← 이전 장</TurnLink> : <span />}

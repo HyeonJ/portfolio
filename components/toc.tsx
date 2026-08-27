@@ -10,7 +10,7 @@ function Row({ c, sub }: { c: Chapter; sub?: boolean }) {
     >
       <span>{c.label}</span>
       <span className="lead" aria-hidden="true" />
-      <span className="num font-mono" style={{ fontSize: sub ? 12 : 13 }}>
+      <span className="num font-mono" aria-hidden="true" style={{ fontSize: sub ? 12 : 13 }}>
         {c.no}
       </span>
     </TurnLink>

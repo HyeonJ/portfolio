@@ -10,7 +10,7 @@ export default function Cover() {
         <div className="ink-1 font-mono text-[11px] tracking-[0.3em]" style={{ color: 'var(--ink-3)' }}>
           PORTFOLIO · {SITE.year}
         </div>
-        <h1 className="ink-1 mt-7 text-[84px] font-bold leading-[1.05] tracking-[0.06em]">정 현 인</h1>
+        <h1 className="ink-1 mt-7 whitespace-nowrap text-[clamp(56px,22vw,84px)] font-bold leading-[1.05] tracking-[0.06em]">정 현 인</h1>
         <div className="ink-1 font-latin mt-2 text-[23px] font-medium tracking-[0.34em]" style={{ color: 'var(--ink-2)' }}>
           {SITE.nameLatin}
         </div>

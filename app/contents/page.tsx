@@ -13,7 +13,7 @@ export default function Contents() {
         <div className="ink-1 font-mono text-[11px] tracking-[0.3em]" style={{ color: 'var(--ink-3)' }}>
           PORTFOLIO · {SITE.year}
         </div>
-        <h1 className="ink-1 mt-6 text-[76px] font-bold leading-[1.05] tracking-[0.04em]">정 현 인</h1>
+        <h1 className="ink-1 mt-6 whitespace-nowrap text-[clamp(52px,20vw,76px)] font-bold leading-[1.05] tracking-[0.04em]">정 현 인</h1>
         <div className="ink-1 font-latin mt-1 text-[22px] font-medium tracking-[0.32em]" style={{ color: 'var(--ink-2)' }}>
           {SITE.nameLatin}
         </div>

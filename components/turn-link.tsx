@@ -1,31 +1,26 @@
 'use client';
 
-import type { AnchorHTMLAttributes, MouseEvent, ReactNode } from 'react';
+import Link from 'next/link';
+import type { ComponentProps, MouseEvent, ReactNode } from 'react';
 import { usePathname } from 'next/navigation';
-import { PAGE_ORDER } from '@/lib/book';
-import { useTurn, type TurnDirection } from '@/components/page-turn';
+import { directionFor, isBookRoute } from '@/lib/nav';
+import { useTurn } from '@/components/page-turn';
 
-type Props = AnchorHTMLAttributes<HTMLAnchorElement> & { href: string; children: ReactNode };
-
-function directionFor(from: string, to: string): TurnDirection {
-  const a = PAGE_ORDER.indexOf(from);
-  const b = PAGE_ORDER.indexOf(to);
-  if (a < 0 || b < 0) return 'next';
-  return b >= a ? 'next' : 'prev';
-}
+type Props = Omit<ComponentProps<typeof Link>, 'href'> & { href: string; children: ReactNode };
 
 export function TurnLink({ href, children, onClick, ...rest }: Props) {
   const turn = useTurn();
   const pathname = usePathname();
   const handle = (e: MouseEvent<HTMLAnchorElement>) => {
     onClick?.(e);
-    if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+    if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+    if (!isBookRoute(href)) return;
     e.preventDefault();
     turn(href, directionFor(pathname, href));
   };
   return (
-    <a href={href} onClick={handle} {...rest}>
+    <Link href={href} onClick={handle} {...rest}>
       {children}
-    </a>
+    </Link>
   );
 }

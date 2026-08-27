@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { THEME_KEY, toggleTheme, type Theme } from '@/lib/theme';
+import { isTypingTarget } from '@/lib/nav';
 
 function readTheme(): Theme {
   return document.documentElement.dataset.theme === 'night' ? 'night' : 'day';
@@ -25,8 +26,7 @@ export function DayNight() {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.ctrlKey || e.metaKey || e.altKey) return;
-      const target = e.target as HTMLElement | null;
-      if (target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA')) return;
+      if (isTypingTarget(e.target)) return;
       if (e.key.toLowerCase() === 'n') apply(toggleTheme(readTheme()));
     };
     window.addEventListener('keydown', onKey);

@@ -4,7 +4,7 @@ test('clicking 작업 on the cover turns to /contents', async ({ page }) => {
   await page.goto('/');
   await page.getByRole('navigation', { name: '차례' }).getByRole('link', { name: /작업/ }).click();
   await expect(page).toHaveURL('/contents');
-  await page.waitForTimeout(700);
+  await expect(page.locator('html[data-turn]')).toHaveCount(0);
   await expect(page.getByRole('navigation', { name: '차례' }).getByRole('link')).toHaveCount(8);
 });
 
@@ -14,11 +14,11 @@ test('arrow keys walk the whole book forward and back', async ({ page }) => {
   for (const path of order) {
     await page.keyboard.press('ArrowRight');
     await expect(page).toHaveURL(path);
-    await page.waitForTimeout(700);
+    await expect(page.locator('html[data-turn]')).toHaveCount(0);
   }
   await page.keyboard.press('ArrowRight');
   await expect(page).toHaveURL('/contact');
-  await page.waitForTimeout(700);
+  await expect(page.locator('html[data-turn]')).toHaveCount(0);
   await page.keyboard.press('ArrowLeft');
   await expect(page).toHaveURL('/resume');
 });

@@ -88,6 +88,8 @@ export function PageTurnProvider({ children }: { children: ReactNode }) {
       }
     };
     window.addEventListener('keydown', onKey);
+    // E2E/초기 입력 경쟁 방지용 준비 신호 — 리스너가 붙은 뒤에만 키 입력이 유효하다
+    document.documentElement.dataset.turnReady = '';
     return () => window.removeEventListener('keydown', onKey);
   }, [prev, next, turn]);
 

@@ -1,7 +1,10 @@
 import { test, expect } from '@playwright/test';
 
+const ready = (page: import('@playwright/test').Page) => expect(page.locator('html[data-turn-ready]')).toHaveCount(1);
+
 test('clicking 작업 on the cover turns to /contents', async ({ page }) => {
   await page.goto('/');
+  await ready(page);
   await page.getByRole('navigation', { name: '차례' }).getByRole('link', { name: /작업/ }).click();
   await expect(page).toHaveURL('/contents');
   await expect(page.locator('html[data-turn]')).toHaveCount(0);
@@ -10,6 +13,7 @@ test('clicking 작업 on the cover turns to /contents', async ({ page }) => {
 
 test('arrow keys walk the whole book forward and back', async ({ page }) => {
   await page.goto('/');
+  await ready(page);
   const order = ['/contents', '/about', '/work/hsm-key-integrity', '/work/gift-payment-reconciliation', '/work/closed-network-qr', '/projects', '/resume', '/contact'];
   for (const path of order) {
     await page.keyboard.press('ArrowRight');
@@ -26,6 +30,7 @@ test('arrow keys walk the whole book forward and back', async ({ page }) => {
 test('edge buttons exist on desktop and navigate', async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 800 });
   await page.goto('/contents');
+  await ready(page);
   await page.getByTestId('edge-next').click();
   await expect(page).toHaveURL('/about');
   await page.getByTestId('edge-prev').click();
@@ -36,6 +41,7 @@ test('reduced motion still navigates (fallback path)', async ({ browser }) => {
   const context = await browser.newContext({ reducedMotion: 'reduce' });
   const page = await context.newPage();
   await page.goto('/');
+  await ready(page);
   await page.keyboard.press('ArrowRight');
   await expect(page.locator('html[data-turn]')).toHaveCount(0);
   await expect(page).toHaveURL('/contents');

@@ -20,6 +20,9 @@ const eslintConfig = [
       "next-env.d.ts",
     ],
   },
+  {
+    ignores: ['playwright-report/**', 'test-results/**'],
+  },
 ];
 
 export default eslintConfig;

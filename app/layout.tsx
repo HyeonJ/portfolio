@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Gowun_Batang, Cormorant_Garamond, IBM_Plex_Mono } from 'next/font/google';
 import './globals.css';
 
+// subsets: ['latin'] — next/font는 Gowun Batang에 'korean' 서브셋을 노출하지 않지만, 빌드 결과 @font-face unicode-range에 한글(U+AC00–D7A3)이 포함됨 (검증 2026-08-27). 좁히지 말 것.
 const batang = Gowun_Batang({ weight: ['400', '700'], subsets: ['latin'], variable: '--font-batang', display: 'swap' });
 const latin = Cormorant_Garamond({ weight: ['500', '600'], subsets: ['latin'], variable: '--font-latin', display: 'swap' });
 const mono = IBM_Plex_Mono({ weight: ['400', '500'], subsets: ['latin'], variable: '--font-mono', display: 'swap' });

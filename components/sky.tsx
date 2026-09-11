@@ -1,8 +1,9 @@
 // 하늘 배경(종이색 + 지질감 + 별) — 낱장 넘김에서 고정되는 레이어.
-// 반드시 .vt-page(view-transition-name: page) 바깥(layout)에 두어야 잎과 함께 회전하지 않는다.
+// 반드시 .vt-page 바깥(layout)에 두어야 잎과 함께 벗겨지지 않는다.
+// data-sky: page-turn.tsx가 넘김 낱장 복제 시 이 레이어를 찾아 함께 복제한다 (앞장이 투명해지지 않도록).
 export function Sky() {
   return (
-    <div aria-hidden="true" className="pointer-events-none fixed inset-0" style={{ background: 'var(--paper)' }}>
+    <div aria-hidden="true" data-sky className="pointer-events-none fixed inset-0" style={{ background: 'var(--paper)' }}>
       <svg className="absolute inset-0 h-full w-full opacity-35 mix-blend-multiply">
         <filter id="grain">
           <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch" />

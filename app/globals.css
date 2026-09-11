@@ -32,9 +32,11 @@ html, body {
 a { color: inherit; text-decoration: none; }
 a:hover { color: var(--mark); }
 
-/* 좌상단 고정 '표지' 마크 — 잎(.vt-page) 바깥이라 낱장 넘김에 회전하지 않는다. hover 색은 전역 a:hover가 처리 */
+/* 좌상단 고정 '표지' 마크 — 잎(.vt-page) 바깥이라 낱장 넘김에 벗겨지지 않는다. hover 색은 전역 a:hover가 처리.
+   z-50: 넘김 오버레이(z10~40) 위에 항상 떠 있어 넘김 중에도 깜빡이지 않는다. */
 .home-mark {
   position: fixed;
+  z-index: 50;
   top: 16px;
   left: 22px;
   font-size: 14px;
@@ -60,62 +62,52 @@ a:hover { color: var(--mark); }
 .ink-3 { animation: ink 0.9s 0.60s both; }
 .ink-4 { animation: ink 0.9s 0.85s both; }
 
-/* 책장 넘김 — View Transitions, 낱장(leaf) 방식.
-   종이(.vt-page 스냅샷)만 스파인(왼쪽) 축으로 넘어가고, 하늘 배경(root 스냅샷)은 고정. */
-.vt-page { view-transition-name: page; }
+/* 책장 넘김 — 모서리 필(달력 벗겨냄), rAF 오버레이 방식.
+   수학은 lib/peel.ts(프로토타입 2026-09-11-corner-peel-v4 이식), DOM 조립은 components/page-turn.tsx.
+   .vt-page는 넘어가는 잎(leaf)의 래퍼 — 배경(Sky)·홈 마크·엣지 버튼은 이 바깥에 있어 함께 벗겨지지 않는다.
+   z-맵: Sky(z-auto) < 밑장 z10 < 스크림/next 스택 z20 < prev의 .vt-page z30 < 접힘 z40 < 크롬(홈 마크·엣지 버튼) z50 */
 
-/* 루트 스냅샷은 고정 — 배경은 넘어가지 않는다 */
-html[data-turn]::view-transition-old(root),
-html[data-turn]::view-transition-new(root) { animation: none; }
+/* prev: 실제 목적지 페이지(.vt-page)가 클리핑되는 '앞장'이 된다 — 밑장 클론(z10)·스크림(z20) 위, 접힘(z40) 아래 */
+html[data-turn='prev'] .vt-page { position: relative; z-index: 30; }
 
-::view-transition-image-pair(page) { isolation: isolate; }
+/* 오버레이 골격 — 최상위 층은 fixed, 스택 내부 자식은 absolute */
+.peel-layer { position: fixed; inset: 0; pointer-events: none; }
+.peel-layer--under { z-index: 10; }
+.peel-layer--scrim { z-index: 20; }
+.peel-layer--stack { z-index: 20; }
+.peel-layer--fold { z-index: 40; }
+.peel-fill { position: absolute; inset: 0; }
 
-/* next: 현재 장(old)이 잎이 되어 스파인(왼쪽) 축으로 넘어감, 새 장은 아래 정지 */
-html[data-turn="next"]::view-transition-old(page) {
-  transform-origin: left center;
-  backface-visibility: hidden;
-  z-index: 2;
-  animation: vt-leaf-out 700ms cubic-bezier(0.38, 0.05, 0.28, 1) both;
-}
-html[data-turn="next"]::view-transition-new(page) {
-  animation: vt-under 700ms ease-out both;
-}
+.peel-group { will-change: transform, opacity; }
+.peel-front { overflow: hidden; }
 
-/* prev: 넘어갔던 잎(new)이 되돌아옴, 이전 장(old)은 아래 정지 */
-html[data-turn="prev"]::view-transition-new(page) {
-  transform-origin: left center;
-  backface-visibility: hidden;
-  z-index: 2;
-  animation: vt-leaf-out 700ms cubic-bezier(0.38, 0.05, 0.28, 1) reverse both;
-}
-html[data-turn="prev"]::view-transition-old(page) {
-  animation: vt-under 700ms ease-out reverse both;
+/* 복제된 낱장(하늘 + 잎) — 종이색 바탕. 등장 애니메이션은 복제 시 재생되지 않도록 최종 상태로 고정 */
+.peel-sheet { position: absolute; inset: 0; overflow: hidden; background: var(--paper); }
+.peel-sheet .ink-1, .peel-sheet .ink-2, .peel-sheet .ink-3, .peel-sheet .ink-4 { animation: none; }
+
+/* 접혀 뒤집힌 뒷면 — 프로토타입 v4의 그라디언트·그림자 그대로 */
+.peel-fold {
+  display: none;
+  background: linear-gradient(320deg, #e2f2fc 0%, #cfe7f7 45%, #aacfe9 100%);
+  filter: drop-shadow(-10px -10px 14px rgba(10, 25, 40, 0.28));
 }
 
-@keyframes vt-leaf-out {
-  0%   { transform: perspective(1600px) rotateY(0deg);    opacity: 1; filter: brightness(1); }
-  55%  { transform: perspective(1600px) rotateY(-88deg);  opacity: 1; filter: brightness(0.86); }
-  100% { transform: perspective(1600px) rotateY(-150deg); opacity: 0; filter: brightness(0.8); }
-}
-/* 아래 깔린 장이 잎이 들리며 밝아짐 — 스파인 그림자의 근사 */
-@keyframes vt-under {
-  0%   { filter: brightness(0.9); }
-  100% { filter: brightness(1); }
+/* 밑장 스크림 — 우하단→좌상단, ease-out-sine 근사 8-스톱 (경계 밴딩 제거) */
+.peel-scrim {
+  opacity: 0;
+  background: linear-gradient(315deg,
+    rgba(10, 25, 40, 0.20) 0%,
+    rgba(10, 25, 40, 0.175) 12%,
+    rgba(10, 25, 40, 0.14) 25%,
+    rgba(10, 25, 40, 0.10) 38%,
+    rgba(10, 25, 40, 0.06) 51%,
+    rgba(10, 25, 40, 0.028) 64%,
+    rgba(10, 25, 40, 0.01) 76%,
+    rgba(10, 25, 40, 0) 88%);
 }
 
-/* 2차 방어선: page-turn.tsx의 matchMedia 가드와 별개로 CSS만으로도 페이드가 이기도록 특이성을 맞춘다
-   (html[data-turn] 병기 = 위 규칙과 특이성 동률 → 나중 선언인 이쪽이 이긴다). 루트는 위의 animation: none 유지. */
+/* reduced-motion: 넘김은 page-turn.tsx의 matchMedia 가드가 애니메이션 없는 router.push로 처리 — 여기선 등장만 끈다 */
 @media (prefers-reduced-motion: reduce) {
-  html[data-turn]::view-transition-old(page),
-  ::view-transition-old(page) {
-    animation: fade-out 200ms ease-in-out both; transform: none;
-  }
-  html[data-turn]::view-transition-new(page),
-  ::view-transition-new(page) {
-    animation: fade-in 200ms ease-in-out both; transform: none;
-  }
-  @keyframes fade-out { from { opacity: 1; } to { opacity: 0; } }
-  @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
   .ink-1, .ink-2, .ink-3, .ink-4 { animation: none; }
 }
 

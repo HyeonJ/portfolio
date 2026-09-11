@@ -8,7 +8,7 @@
 - 낮/밤: 우측 해·달 버튼 또는 `N` 키, localStorage에 저장
 
 ## 스택
-Next.js 15 · React 19 · TypeScript · Tailwind v4 · next/font(고운바탕·Cormorant Garamond·IBM Plex Mono) · Vercel Analytics
+Next.js 15 · React 19 · TypeScript · Tailwind v4 · MDX(@next/mdx, 케이스 스터디 본문) · next/font(고운바탕·Cormorant Garamond·IBM Plex Mono) · next/og(고운바탕 임베드) · Vercel Analytics
 
 ## 개발
 - `npm run dev` → http://localhost:3000

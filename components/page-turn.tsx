@@ -95,7 +95,8 @@ export function PageTurnProvider({ children }: { children: ReactNode }) {
 
   return (
     <TurnContext.Provider value={turn}>
-      {children}
+      {/* 낱장(leaf) 스냅샷 경계 — view-transition-name: page. 배경(Sky)·엣지 버튼은 이 바깥에 있어 잎과 함께 회전하지 않는다. */}
+      <div className="vt-page">{children}</div>
       {prev && (
         <button
           type="button"

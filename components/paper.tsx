@@ -1,24 +1,8 @@
 import type { ReactNode } from 'react';
 
+// 배경(종이색·지질감·별)은 components/sky.tsx로 분리되어 layout에서 렌더된다.
+// Paper는 이제 잎(.vt-page) 안에서 넘어가는 내용면만 담당한다 — 배경을 다시 넣으면 배경이 잎과 함께 회전하므로 금지.
+// relative 유지 필수: fixed인 Sky보다 위에 페인트되려면 positioned여야 한다.
 export function Paper({ children }: { children: ReactNode }) {
-  return (
-    <main className="relative min-h-dvh overflow-hidden" style={{ background: 'var(--paper)' }}>
-      <svg aria-hidden="true" className="pointer-events-none absolute inset-0 h-full w-full opacity-35 mix-blend-multiply">
-        <filter id="grain">
-          <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch" />
-          <feColorMatrix values="0 0 0 0 0.2  0 0 0 0 0.3  0 0 0 0 0.4  0 0 0 0.9 0" />
-        </filter>
-        <rect width="100%" height="100%" filter="url(#grain)" />
-      </svg>
-      <div
-        aria-hidden="true"
-        className="stars pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-700 [[data-theme=night]_&]:opacity-100"
-        style={{
-          backgroundImage:
-            'radial-gradient(1px 1px at 12% 18%, #fff 60%, transparent 61%), radial-gradient(1.2px 1.2px at 28% 62%, #fff 60%, transparent 61%), radial-gradient(1px 1px at 41% 30%, #fff 60%, transparent 61%), radial-gradient(1.4px 1.4px at 57% 12%, #fff 60%, transparent 61%), radial-gradient(1px 1px at 66% 74%, #fff 60%, transparent 61%), radial-gradient(1.2px 1.2px at 78% 40%, #fff 60%, transparent 61%), radial-gradient(1px 1px at 88% 22%, #fff 60%, transparent 61%), radial-gradient(1px 1px at 92% 66%, #fff 60%, transparent 61%), radial-gradient(1.4px 1.4px at 8% 82%, #fff 60%, transparent 61%), radial-gradient(1px 1px at 48% 88%, #fff 60%, transparent 61%)',
-        }}
-      />
-      <div className="relative">{children}</div>
-    </main>
-  );
+  return <main className="relative min-h-dvh">{children}</main>;
 }

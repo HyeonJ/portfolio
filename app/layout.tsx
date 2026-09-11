@@ -11,6 +11,7 @@ const latin = Cormorant_Garamond({ weight: ['500'], subsets: ['latin'], variable
 const mono = IBM_Plex_Mono({ weight: ['400'], subsets: ['latin'], variable: '--font-mono', display: 'swap', preload: false });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://portfolio-lime-nine-91.vercel.app'),
   title: { default: '정현인 — 풀스택 개발자', template: '%s — 정현인' },
   description: 'Java · Spring 백엔드에서 React 프론트까지 7년. 금융 보안 키 관리, 커머스 결제 정합, 폐쇄망 헬스케어 시스템.',
 };

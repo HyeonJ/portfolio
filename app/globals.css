@@ -93,6 +93,8 @@ html[data-turn="prev"]::view-transition-new(root) { animation-name: turn-in-prev
 .chapter-body a { text-decoration: underline; text-underline-offset: 3px; }
 .chapter-body code { font-family: var(--font-mono); font-size: 0.88em; padding: 0.1em 0.35em; border: 1px solid var(--rule); border-radius: 4px; }
 .chapter-body blockquote { margin: 1.2em 0; padding-left: 1.2em; border-left: 2px solid var(--rule); color: var(--ink-3); }
+.chapter-body .project-card { border-color: var(--rule); }
+.chapter-body .project-card:hover { border-color: var(--mark); }
 .chapter-body figure { margin: 1.8em 0; overflow-x: auto; }
 .chapter-body figure svg { display: block; width: 100%; height: auto; min-width: 520px; }
 .chapter-body figcaption { margin-top: 0.6em; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--ink-3); text-align: center; }

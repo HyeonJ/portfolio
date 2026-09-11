@@ -20,8 +20,8 @@ export default function Projects() {
               href={p.repo}
               target="_blank"
               rel="noopener"
-              className="flex flex-col gap-2 border p-5 transition-colors"
-              style={{ borderColor: 'var(--rule)', textDecoration: 'none' }}
+              className="project-card flex flex-col gap-2 border p-5 transition-colors"
+              style={{ textDecoration: 'none' }}
             >
               <span className="flex items-baseline justify-between gap-4">
                 <span className="font-mono text-[15px] font-medium" style={{ color: 'var(--ink)' }}>

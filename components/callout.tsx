@@ -6,7 +6,7 @@ export function Callout({ label, children }: { label: string; children: ReactNod
       className="my-6 border-l-2 py-1 pl-5 text-[15px] leading-[1.85]"
       style={{ borderColor: 'var(--mark)', color: 'var(--ink-2)' }}
     >
-      <span className="font-mono mr-2 text-[12px] tracking-[0.12em]" style={{ color: 'var(--mark)' }}>
+      <span className="font-mono mr-2 text-[12px] tracking-[0.12em]" style={{ color: 'var(--ink-3)' }}>
         {label}
       </span>
       {children}

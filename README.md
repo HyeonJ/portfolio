@@ -16,7 +16,7 @@ Next.js 15 · React 19 · TypeScript · Tailwind v4 · next/font(고운바탕·C
 - CI: GitHub Actions에서 lint → tsc → 단위 → E2E
 
 ## 알려진 이슈
-- 로컬 Lighthouse(모바일) 성능 85(`/`)·80(`/contents`), 접근성 100. 원인은 한글 서체의 unicode-range 조각 다운로드(~250KB). Vercel 배포 후 재측정 예정이며, 90 미만이면 사용 글리프 서브셋 폰트로 전환.
+- Lighthouse(모바일) 성능이 90에 못 미치면 한글 서체를 사용-글리프 서브셋 woff2(`next/font/local`)로 전환 검토. 이력: 고운바탕 preload가 한글 조각 94개(~1.6MB)를 전부 프리로드해 프로덕션 LCP 10초대 → `preload: false`로 해소(2026-09-11).
 
 ## 배포
-Vercel (`main` 자동 배포). 프로덕션 URL은 연결 후 기록.
+Vercel (`main` 자동 배포). 프로덕션: https://portfolio-lime-nine-91.vercel.app

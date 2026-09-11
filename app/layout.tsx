@@ -5,7 +5,8 @@ import './globals.css';
 import { PageTurnProvider } from '@/components/page-turn';
 
 // subsets: ['latin'] — next/font는 Gowun Batang에 'korean' 서브셋을 노출하지 않지만, 빌드 결과 @font-face unicode-range에 한글(U+AC00–D7A3)이 포함됨 (검증 2026-08-27). 좁히지 말 것.
-const batang = Gowun_Batang({ weight: ['400', '700'], subsets: ['latin'], variable: '--font-batang', display: 'swap' });
+// preload: false — preload를 켜면 한글 조각 94개(~1.6MB)가 전부 <link rel=preload>로 방출돼 프로덕션 LCP가 10초대로 밀림(2026-09-11 실측). unicode-range 온디맨드(~15요청)가 훨씬 빠르다.
+const batang = Gowun_Batang({ weight: ['400', '700'], subsets: ['latin'], variable: '--font-batang', display: 'swap', preload: false });
 const latin = Cormorant_Garamond({ weight: ['500'], subsets: ['latin'], variable: '--font-latin', display: 'swap', preload: false });
 const mono = IBM_Plex_Mono({ weight: ['400'], subsets: ['latin'], variable: '--font-mono', display: 'swap', preload: false });
 

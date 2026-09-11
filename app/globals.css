@@ -92,6 +92,13 @@ html[data-turn='prev'] .vt-page { position: relative; z-index: 30; }
   filter: drop-shadow(-10px -10px 14px rgba(10, 25, 40, 0.28));
 }
 
+/* 야간 모드 뒷면 — 방향(320°) 동일, 세 스톱이 밤 종이(#0f1b2b)를 낮 스톱들이 낮 종이를 감싸듯 명도로 감싼다.
+   그림자는 어두운 바탕에서도 보이도록 진하게. */
+[data-theme='night'] .peel-fold {
+  background: linear-gradient(320deg, #2b415a 0%, #1d3044 45%, #12202f 100%);
+  filter: drop-shadow(-10px -10px 14px rgba(0, 0, 0, 0.45));
+}
+
 /* 밑장 스크림 — 우하단→좌상단, ease-out-sine 근사 8-스톱 (경계 밴딩 제거) */
 .peel-scrim {
   opacity: 0;

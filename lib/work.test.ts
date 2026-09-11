@@ -10,5 +10,6 @@ describe('work content', () => {
   });
   it('unknown slug has no content', () => {
     expect(hasWorkContent('nope')).toBe(false);
+    expect(hasWorkContent('toString')).toBe(false);
   });
 });

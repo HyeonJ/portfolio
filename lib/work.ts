@@ -10,11 +10,11 @@ const WORK_CONTENT: Record<string, () => Promise<{ default: ComponentType }>> = 
 export const WORK_SLUGS: readonly string[] = Object.keys(WORK_CONTENT);
 
 export function hasWorkContent(slug: string): boolean {
-  return slug in WORK_CONTENT;
+  return Object.hasOwn(WORK_CONTENT, slug);
 }
 
-export function loadWorkContent(slug: string): Promise<{ default: ComponentType }> {
-  const loader = WORK_CONTENT[slug];
+export async function loadWorkContent(slug: string): Promise<{ default: ComponentType }> {
+  const loader = Object.hasOwn(WORK_CONTENT, slug) ? WORK_CONTENT[slug] : undefined;
   if (!loader) throw new Error(`unknown work slug: ${slug}`);
   return loader();
 }

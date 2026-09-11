@@ -1,6 +1,5 @@
 import { Paper } from '@/components/paper';
 import { Toc } from '@/components/toc';
-import { DayNight } from '@/components/day-night';
 import { Masthead } from '@/components/masthead';
 import { SITE } from '@/lib/book';
 
@@ -14,9 +13,6 @@ export default function Cover() {
         </div>
         <div className="ink-4 font-mono mt-16 text-[12px] tracking-[0.2em]" style={{ color: 'var(--ink-3)' }}>
           {SITE.edition}
-        </div>
-        <div className="ink-4">
-          <DayNight />
         </div>
       </div>
     </Paper>

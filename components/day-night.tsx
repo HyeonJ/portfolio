@@ -41,7 +41,7 @@ export function DayNight() {
       aria-pressed={night}
       data-testid="day-night"
       onClick={() => apply(toggleTheme(theme))}
-      className="mt-3 inline-flex h-11 w-11 items-center justify-center rounded-full"
+      className="inline-flex h-11 w-11 items-center justify-center rounded-full"
       style={{ color: 'var(--ink-2)' }}
     >
       {night ? (

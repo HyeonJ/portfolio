@@ -6,6 +6,7 @@ import { nextPage, prevPage } from '@/lib/book';
 import { isTypingTarget, type TurnDirection } from '@/lib/nav';
 import { peelFrame, PEEL_DURATION_MS } from '@/lib/peel';
 import { HomeMark } from '@/components/home-mark';
+import { DayNight } from '@/components/day-night';
 
 type TurnFn = (href: string, dir: TurnDirection) => void;
 
@@ -223,6 +224,11 @@ export function PageTurnProvider({ children }: { children: ReactNode }) {
       </div>
       {/* TurnLink가 useTurn 컨텍스트를 쓰므로 Provider 안·잎 바깥인 이 위치에 렌더 */}
       <HomeMark />
+      {/* GNB 낮/밤 토글 — 홈 마크(좌상단 16/22)의 우상단 거울상. 잎 바깥 크롬(z50)이라 넘김에 벗겨지지 않고 모든 페이지(표지 포함)에 뜬다.
+          버튼(h-11)의 내부 여백 12px을 빼고 아이콘이 시각적으로 ~16px/22px에 놓이도록 박스는 7px/10px에 둔다. */}
+      <div className="fixed right-[10px] top-[7px] z-50">
+        <DayNight />
+      </div>
       {prev && (
         <button
           type="button"

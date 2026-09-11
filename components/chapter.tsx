@@ -1,7 +1,6 @@
 import type { ReactNode } from 'react';
 import { Paper } from '@/components/paper';
 import { TurnLink } from '@/components/turn-link';
-import { DayNight } from '@/components/day-night';
 import { chapterFor, nextPage, prevPage } from '@/lib/book';
 
 export function Chapter({ path, children }: { path: string; children?: ReactNode }) {
@@ -25,9 +24,6 @@ export function Chapter({ path, children }: { path: string; children?: ReactNode
           </TurnLink>
           {next ? <TurnLink href={next}>다음 장 →</TurnLink> : <span />}
         </nav>
-        <div className="flex justify-center">
-          <DayNight />
-        </div>
       </article>
     </Paper>
   );

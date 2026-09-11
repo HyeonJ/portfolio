@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { Chapter } from '@/components/chapter';
 import { WORK_CHAPTERS } from '@/lib/book';
+import { loadWorkContent } from '@/lib/work';
 
 export const dynamicParams = false;
 
@@ -19,5 +20,12 @@ export default async function Work({ params }: { params: Promise<{ slug: string 
   const { slug } = await params;
   const path = `/work/${slug}`;
   if (!WORK_CHAPTERS.some((c) => c.href === path)) notFound();
-  return <Chapter path={path} />;
+  const { default: Body } = await loadWorkContent(slug);
+  return (
+    <Chapter path={path}>
+      <div className="chapter-body">
+        <Body />
+      </div>
+    </Chapter>
+  );
 }

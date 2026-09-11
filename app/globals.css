@@ -32,6 +32,17 @@ html, body {
 a { color: inherit; text-decoration: none; }
 a:hover { color: var(--mark); }
 
+/* 좌상단 고정 '표지' 마크 — 잎(.vt-page) 바깥이라 낱장 넘김에 회전하지 않는다. hover 색은 전역 a:hover가 처리 */
+.home-mark {
+  position: fixed;
+  top: 16px;
+  left: 22px;
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  color: var(--ink-2);
+  transition: color 160ms ease;
+}
+
 .font-latin { font-family: var(--font-latin); }
 .font-mono { font-family: var(--font-mono); }
 

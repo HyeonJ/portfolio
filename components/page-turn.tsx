@@ -4,6 +4,7 @@ import { createContext, useCallback, useContext, useEffect, useRef, type ReactNo
 import { usePathname, useRouter } from 'next/navigation';
 import { nextPage, prevPage } from '@/lib/book';
 import { isTypingTarget, type TurnDirection } from '@/lib/nav';
+import { HomeMark } from '@/components/home-mark';
 
 type TurnFn = (href: string, dir: TurnDirection) => void;
 
@@ -95,8 +96,10 @@ export function PageTurnProvider({ children }: { children: ReactNode }) {
 
   return (
     <TurnContext.Provider value={turn}>
-      {/* 낱장(leaf) 스냅샷 경계 — view-transition-name: page. 배경(Sky)·엣지 버튼은 이 바깥에 있어 잎과 함께 회전하지 않는다. */}
+      {/* 낱장(leaf) 스냅샷 경계 — view-transition-name: page. 배경(Sky)·홈 마크·엣지 버튼은 이 바깥에 있어 잎과 함께 회전하지 않는다. */}
       <div className="vt-page">{children}</div>
+      {/* TurnLink가 useTurn 컨텍스트를 쓰므로 Provider 안·잎 바깥인 이 위치에 렌더 */}
+      <HomeMark />
       {prev && (
         <button
           type="button"

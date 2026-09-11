@@ -19,6 +19,16 @@ test('about, projects, resume, contact have real content', async ({ page }) => {
   await expect(page.getByRole('link', { name: 'bpx2710@gmail.com' })).toBeVisible();
 });
 
+test('home mark 표지 shows on inner pages, returns to cover, absent on cover', async ({ page }) => {
+  await page.goto('/about');
+  await expect(page.locator('html[data-turn-ready]')).toHaveCount(1);
+  const mark = page.getByRole('link', { name: '표지로' });
+  await expect(mark).toBeVisible();
+  await mark.click();
+  await expect(page).toHaveURL('/');
+  await expect(page.getByRole('link', { name: '표지로' })).toHaveCount(0);
+});
+
 test('no page still shows the stub placeholder', async ({ page }) => {
   for (const p of ['/about', '/work/gift-payment-reconciliation', '/work/closed-network-qr', '/projects', '/resume', '/contact']) {
     await page.goto(p);
